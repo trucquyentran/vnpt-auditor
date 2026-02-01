@@ -308,8 +308,8 @@ export default function Dashboard() {
   const totalGiaHan2026 = totalsLocal.giaHanDungHan2026 + totalsLocal.giaHanSom2026 + totalsLocal.giaHanTre2025;
 
   return (
-    <div className="space-y-4 animate-in fade-in duration-500 pb-10 text-[12px] w-full">
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 text-center w-full">
+    <div className="space-y-4 animate-in fade-in duration-500 pb-10 text-[12px] w-full max-w-full overflow-x-hidden">
+      <div className="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 text-center w-full">
         {[
           {
             label: "Đang hoạt động",
@@ -345,7 +345,7 @@ export default function Dashboard() {
           stat.label === "Gia hạn 2026" ? (
             <div
               key={i}
-              className="bg-white p-4 rounded-lg shadow-sm border border-slate-200 border-l-4 border-l-emerald-500 min-h-[96px] flex flex-col justify-between text-center"
+              className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-slate-200 border-l-4 border-l-emerald-500 min-h-[88px] sm:min-h-[96px] flex flex-col justify-between text-center"
             >
               <div className="flex justify-between items-start">
                 <p className="text-[8px] font-black text-emerald-600 uppercase leading-tight">
@@ -355,7 +355,7 @@ export default function Dashboard() {
               </div>
               <div className="flex items-center justify-center gap-3 mt-1 flex-1 min-h-0">
                 <div className="flex items-center justify-center shrink-0">
-                  <h2 className="text-2xl font-black text-slate-800">
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-800">
                     {totalGiaHan2026.toLocaleString()}
                   </h2>
                 </div>
@@ -369,7 +369,7 @@ export default function Dashboard() {
           ) : (
             <div
               key={i}
-              className={`bg-white p-4 rounded-lg shadow-sm border border-slate-200 border-l-4 border-l-${stat.color}-500 min-h-[96px] flex flex-col justify-between`}
+              className={`bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-slate-200 border-l-4 border-l-${stat.color}-500 min-h-[88px] sm:min-h-[96px] flex flex-col justify-between`}
             >
               <div className="flex justify-between items-start">
                 <p className={`text-[8px] font-black text-${stat.color}-600 uppercase leading-tight`}>
@@ -378,7 +378,7 @@ export default function Dashboard() {
                 <stat.icon size={12} className={`text-${stat.color}-200 shrink-0`} />
               </div>
               <div className="flex flex-1 items-center justify-center mt-1">
-                <h2 className="text-2xl font-black text-slate-800">
+                <h2 className="text-xl sm:text-2xl font-black text-slate-800">
                   {stat.val.toLocaleString()}
                 </h2>
               </div>
@@ -388,8 +388,8 @@ export default function Dashboard() {
       </div>
 
       {!selectedArea ? (
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden font-bold">
-          <table className="w-full text-left border-collapse text-[12px]">
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden font-bold overflow-x-auto">
+          <table className="w-full text-left border-collapse text-[12px] min-w-[640px]">
             <thead className="bg-slate-50 text-slate-400 text-[12px] uppercase font-black border-b border-slate-100">
               <tr>
                 <th className="px-4 py-2 ">Khu vực phân bổ</th>

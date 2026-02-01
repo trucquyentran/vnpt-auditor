@@ -9,10 +9,11 @@ import {
   Trash2,
   CheckCircle,
   Play,
+  X,
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
 
-export default function Sidebar() {
+export default function Sidebar({ sidebarOpen = false, setSidebarOpen = () => {} }) {
   const {
     view,
     setView,
@@ -40,17 +41,32 @@ export default function Sidebar() {
       (view === "homeClinic" && pendingForView === "homeClinic"));
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-52 bg-slate-900 text-white flex flex-col shrink-0 border-r border-slate-800 shadow-2xl z-30">
-      <div className="p-3 border-b border-slate-800 flex items-center gap-2">
-        <ShieldCheck className="text-indigo-400" size={18} />
-        <div>
-          <span className="font-bold text-xs block leading-none uppercase tracking-tighter">
-            VNPT AUDITOR
-          </span>
-          <span className="text-[7px] text-slate-500 uppercase mt-1 block font-black tracking-widest italic tracking-tighter leading-none">
-            v22.0 Fixed
-          </span>
+    <aside
+      className={`fixed left-0 top-0 h-screen w-52 sm:w-56 bg-slate-900 text-white flex flex-col shrink-0 border-r border-slate-800 shadow-2xl z-30 transition-transform duration-300 ease-out safe-top safe-bottom safe-left ${
+        sidebarOpen ? "translate-x-0" : "-translate-x-full"
+      } md:translate-x-0`}
+      aria-hidden={!sidebarOpen}
+    >
+      <div className="p-3 border-b border-slate-800 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 min-w-0">
+          <ShieldCheck className="text-indigo-400 shrink-0" size={18} />
+          <div className="min-w-0">
+            <span className="font-bold text-xs block leading-none uppercase tracking-tighter truncate">
+              VNPT AUDITOR
+            </span>
+            <span className="text-[7px] text-slate-500 uppercase mt-1 block font-black tracking-widest italic tracking-tighter leading-none">
+              v22.0 Fixed
+            </span>
+          </div>
         </div>
+        <button
+          type="button"
+          onClick={() => setSidebarOpen(false)}
+          className="md:hidden p-1.5 rounded-md text-slate-400 hover:bg-slate-800 hover:text-white transition-colors touch-manipulation"
+          aria-label="Đóng menu"
+        >
+          <X size={18} />
+        </button>
       </div>
 
       <div className="flex-1 overflow-y-auto px-1.5 py-2 border-t border-slate-800 space-y-4">

@@ -33,9 +33,9 @@ export default function Calendar() {
   if (!activeSession) return null;
 
   return (
-    <div className="space-y-3 animate-in fade-in duration-300 pb-10 text-[10px]">
-      <div className="bg-white p-3 rounded-xl border border-slate-200 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-4 text-[10px] font-bold">
+    <div className="space-y-3 animate-in fade-in duration-300 pb-10 text-[10px] w-full max-w-full overflow-x-hidden">
+      <div className="bg-white p-3 rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 shadow-sm">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-[10px] font-bold">
           <div className="flex items-center gap-1.5 text-[10px] font-bold">
             <span className="text-[9px] font-black uppercase text-slate-400 tracking-tighter">
               Tháng:
@@ -87,18 +87,18 @@ export default function Calendar() {
             calendarData.length > 0 && setSelectedMonthDetail(calendarData)
           }
           disabled={calendarData.length === 0}
-          className="text-[12px] font-black text-rose-600 bg-rose-50 px-3 py-1 rounded-full border border-rose-100 uppercase flex items-center gap-2 hover:bg-rose-100 hover:border-rose-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-rose-50"
+          className="text-[11px] sm:text-[12px] font-black text-rose-600 bg-rose-50 px-3 py-1.5 rounded-full border border-rose-100 uppercase flex items-center justify-center gap-2 hover:bg-rose-100 hover:border-rose-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-rose-50 w-full sm:w-auto"
         >
           <Activity size={12} /> Tổng số thuê bao hết hạn:{" "}
           <span className="font-black text-rose-700">{calendarData.length}</span>
         </button>
       </div>
-      <div className="grid grid-cols-7 gap-1.5 [&>div]:min-w-0">
-        {["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"].map(
+      <div className="grid grid-cols-7 gap-0.5 sm:gap-1.5 [&>div]:min-w-0">
+        {["T2", "T3", "T4", "T5", "T6", "T7", "CN"].map(
           (d) => (
             <div
               key={d}
-              className="bg-slate-800 text-white py-1.5 px-1 text-center font-black uppercase text-[13px] rounded-lg tracking-widest flex items-center justify-center h-8"
+              className="bg-slate-800 text-white py-0.5 sm:py-1.5 px-0.5 text-center font-black uppercase text-[7px] sm:text-[11px] md:text-[13px] rounded flex items-center justify-center h-5 sm:h-8 min-h-[20px]"
             >
               {d}
             </div>
@@ -110,7 +110,7 @@ export default function Calendar() {
         }).map((_, i) => (
           <div
             key={`empty-${i}`}
-            className="bg-slate-50 rounded-lg border border-dashed border-slate-200 opacity-40 aspect-[5/2] min-h-[1.5rem]"
+            className="bg-slate-50 rounded border border-dashed border-slate-200 opacity-40 aspect-[3/2] sm:aspect-[5/2] min-h-[1rem] sm:min-h-[1.5rem]"
           />
         ))}
         {(() => {
@@ -174,18 +174,18 @@ export default function Calendar() {
           const dayCell = (
             <div
               onClick={() => hasData && setSelectedDayDetail({ day, data: dayData })}
-              className={`group relative w-full h-full min-h-[1.5rem] p-3 rounded-lg border transition-all flex flex-col justify-between cursor-pointer 
+              className={`group relative w-full h-full min-h-[1.25rem] sm:min-h-[1.5rem] p-1 sm:p-3 rounded-lg border transition-all flex flex-col justify-between cursor-pointer overflow-hidden
                 ${
                   isToday
-                    ? "border-[3px] border-red-500 bg-red-50 shadow-inner ring-4 ring-red-500/10"
+                    ? "border-2 sm:border-[3px] border-red-500 bg-red-50 shadow-inner ring-2 sm:ring-4 ring-red-500/10"
                     : hasData
                     ? "bg-white border-blue-400 hover:shadow-md hover:border-blue-500 ring-offset-1 hover:ring-2 ring-indigo-100"
                     : "bg-transparent border-slate-200 hover:border-slate-300"
                 }`}
             >
-              <div className="flex justify-between items-start">
+              <div className="flex justify-between items-start gap-0.5 min-h-0 flex-shrink-0">
                 <span
-                  className={`font-black text-[20px] leading-none ${
+                  className={`font-black leading-none text-[12px] sm:text-[16px] md:text-[20px] shrink-0 ${
                     isToday
                       ? "text-red-700"
                       : hasData
@@ -196,33 +196,35 @@ export default function Calendar() {
                   {day}
                 </span>
                 {isToday && (
-                  <span className="bg-red-500 text-white text-[13px] px-1 py-0.5 rounded font-black uppercase tracking-tighter shadow-sm animate-pulse">
-                    Hôm nay
+                  <span className="bg-red-500 text-white text-[6px] sm:text-[9px] md:text-[11px] px-0.5 sm:px-1 py-0.5 rounded font-black uppercase tracking-tighter shadow-sm shrink-0 leading-none">
+                    <span className="hidden sm:inline">Hôm nay</span>
+                    <span className="sm:hidden">HN</span>
                   </span>
                 )}
               </div>
               {hasData && (
-                <div className="flex flex-col items-end">
+                <div className="flex flex-col items-end justify-end min-h-0 flex-1 overflow-hidden mt-0.5">
                   <span
-                    className={`text-[14px] font-black leading-none ${
+                    className={`font-black leading-none text-[9px] sm:text-[12px] md:text-[14px] shrink-0 ${
                       isToday ? "text-red-800" : "text-indigo-600"
                     }`}
                   >
                     {dayData.length}
                   </span>
                   <span
-                    className={`text-[10px] font-black uppercase mt-0.5 tracking-tighter ${
+                    className={`font-black uppercase tracking-tighter leading-none text-[6px] sm:text-[8px] md:text-[10px] shrink-0 ${
                       isToday ? "text-red-600" : "text-slate-500"
                     }`}
                   >
-                    TB cần gia hạn
+                    <span className="sm:hidden">TB</span>
+                    <span className="hidden sm:inline">TB cần gia hạn</span>
                   </span>
                 </div>
               )}
             </div>
           );
           return (
-            <div key={day} className="min-w-0 aspect-[3/2] min-h-[1.5rem]">
+            <div key={day} className="min-w-0 aspect-square sm:aspect-[3/2] min-h-[2rem] sm:min-h-[1.5rem]">
               {hasData ? (
                 <CustomTooltip
                   content={tooltipContent}

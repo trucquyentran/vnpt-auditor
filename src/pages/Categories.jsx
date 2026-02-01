@@ -33,17 +33,17 @@ export default function Categories() {
   }, [communeList, communePage]);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-4 pb-10">
-      <div className="bg-white p-4 rounded-xl border border-slate-200 flex items-center justify-between shadow-sm">
-        <div>
-          <h3 className="font-black text-slate-800 uppercase text-[12px]">
+    <div className="w-full max-w-4xl mx-auto space-y-4 pb-10 px-0 sm:px-2">
+      <div className="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 shadow-sm">
+        <div className="min-w-0">
+          <h3 className="font-black text-slate-800 uppercase text-[11px] sm:text-[12px]">
             Danh mục Đối soát
           </h3>
-          <p className="text-slate-400 text-[12px] italic">
+          <p className="text-slate-400 text-[11px] sm:text-[12px] italic">
             Đã nạp: {communeList.length.toLocaleString()} xã/phường.
           </p>
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap shrink-0">
           <button
             type="button"
             onClick={handleLoadFromSheet}
@@ -68,8 +68,8 @@ export default function Categories() {
           {sheetError}
         </div>
       )}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col font-bold uppercase">
-        <table className="w-full text-left text-[12px]">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col font-bold uppercase overflow-x-auto">
+        <table className="w-full text-left text-[11px] sm:text-[12px] min-w-[480px]">
           <thead className="bg-slate-900 text-white text-[12px] uppercase tracking-widest border-b border-white/10">
             <tr>
               <th className="px-4 py-2">Xã/Phường</th>

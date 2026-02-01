@@ -6,9 +6,9 @@ const PaginationUI = ({ current, totalItems, onPageChange }) => {
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   if (totalPages <= 1) return null;
   return (
-    <div className="flex items-center justify-between px-4 py-2 bg-white border-t border-slate-100 mt-auto shadow-inner">
-      <span className="text-[9px] font-black text-slate-400 uppercase tracking-tighter">
-        Trang {current} / {totalPages} ({totalItems.toLocaleString()} bản ghi)
+    <div className="flex flex-wrap items-center justify-between gap-2 px-2 sm:px-4 py-2 bg-white border-t border-slate-100 mt-auto shadow-inner">
+      <span className="text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-tighter">
+        Trang {current}/{totalPages} ({totalItems.toLocaleString()})
       </span>
       <div className="flex gap-1">
         <button

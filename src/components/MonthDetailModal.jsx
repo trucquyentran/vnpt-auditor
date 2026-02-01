@@ -110,10 +110,10 @@ export default function MonthDetailModal() {
   const total = selectedMonthDetail.length;
 
   return (
-    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] flex items-center justify-center p-6 animate-in fade-in">
-      <div className="bg-white rounded-3xl w-full max-w-[98%] max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200 text-[10px]">
-        <header className="p-4 bg-slate-900 text-white flex items-center justify-between shrink-0 shadow-lg">
-          <div className="flex items-center gap-3 text-sm font-black uppercase tracking-tighter">
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] flex items-center justify-center p-3 sm:p-6 animate-in fade-in safe-top safe-bottom">
+      <div className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-[98%] max-h-[85vh] sm:max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200 text-[10px]">
+        <header className="p-3 sm:p-4 bg-slate-900 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 shrink-0 shadow-lg">
+          <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-black uppercase tracking-tighter min-w-0">
             <CalendarDays size={20} className="text-indigo-400" /> Hết hạn tháng{" "}
             {calMonth}/{calYear} — Tổng {total} thuê bao
           </div>

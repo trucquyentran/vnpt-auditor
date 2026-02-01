@@ -1,8 +1,23 @@
+/* Root: full width, responsive padding, hỗ trợ nhiều thiết bị */
 #root {
-  max-width: 1280px;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  #root {
+    padding: 0;
+  }
+}
+
+/* Tránh overflow ngang trên mobile */
+html, body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .logo {
