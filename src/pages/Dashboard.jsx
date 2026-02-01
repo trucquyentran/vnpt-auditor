@@ -30,6 +30,7 @@ import PaginationUI from "../components/PaginationUI";
 import { getStatusTag } from "../utils/status";
 import { ITEMS_PER_PAGE } from "../constants";
 import { parseDate, dateToYYYYMM } from "../utils/date";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 
 function ChartLabelWithStroke(props) {
   const { viewBox, position = "top", offset = 5, value, fill, fontSize = 10, fontWeight = "bold", formatter } = props;
@@ -77,6 +78,7 @@ export default function Dashboard() {
   const [filterDateUpdate, setFilterDateUpdate] = useState("");
   const [filterDatePrevExpiry, setFilterDatePrevExpiry] = useState("");
   const [filterDateExpiry, setFilterDateExpiry] = useState("");
+  const isNarrowChart = useMediaQuery("(max-width: 767px)");
 
   const filteredDetailDataLocal = useMemo(() => {
     const base = selectedArea
@@ -665,25 +667,33 @@ export default function Dashboard() {
               </select>
             </label>
           </div>
-          <div className="h-[400px] w-full">
+          <div className="h-[400px] w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart
                 data={giaHan2026ChartData}
-                margin={{ top: 40, right: 12, left: 0, bottom: 120 }}
-                barGap={12}
+                margin={isNarrowChart ? { top: 40, right: 16, left: 8, bottom: 170 } : { top: 40, right: 12, left: 0, bottom: 120 }}
+                barGap={isNarrowChart ? 6 : 12}
+                barCategoryGap={isNarrowChart ? "12%" : undefined}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
                 <XAxis
                   dataKey="khuVuc"
-                  tick={{ fontSize: 9, fill: "#64748b" }}
-                  tickFormatter={(v) => (v && String(v).replace(/^VNPT\s+KHU\s+VỰC\s+/i, "").trim()) || v}
+                  tick={{ fontSize: isNarrowChart ? 8 : 9, fill: "#64748b" }}
+                  tickFormatter={(v) => {
+                    const s = (v && String(v).replace(/^VNPT\s+KHU\s+VỰC\s+/i, "").trim()) || "";
+                    return isNarrowChart && s.length > 12 ? `${s.slice(0, 11)}…` : s;
+                  }}
                   tickLine={false}
                   interval={0}
+                  angle={isNarrowChart ? -45 : 0}
+                  textAnchor={isNarrowChart ? "end" : "middle"}
+                  height={isNarrowChart ? 110 : undefined}
                 />
                 <YAxis
-                  tick={{ fontSize: 10, fill: "#64748b" }}
+                  tick={{ fontSize: isNarrowChart ? 9 : 10, fill: "#64748b" }}
                   tickLine={false}
                   allowDecimals={false}
+                  width={isNarrowChart ? 28 : undefined}
                 />
                 <Tooltip
                   contentStyle={{
@@ -693,33 +703,33 @@ export default function Dashboard() {
                   }}
                   labelFormatter={(label) => `Khu vực: ${label}`}
                 />
-                <Legend wrapperStyle={{ fontSize: 10 }} verticalAlign="top" align="center" />
+                <Legend wrapperStyle={{ fontSize: isNarrowChart ? 9 : 10 }} verticalAlign={isNarrowChart ? "bottom" : "top"} align="center" />
                 <Bar
                   dataKey="giaHanTre2025"
                   name="Gia hạn trễ (TB hết hạn 2025)"
                   fill="#d97706"
                   radius={[2, 2, 0, 0]}
-                  maxBarSize={48}
+                  maxBarSize={isNarrowChart ? 24 : 48}
                 >
-                  <LabelList dataKey="giaHanTre2025" position="top" content={(p) => <ChartLabelWithStroke {...p} fill="#b45309" fontSize={10} formatter={(v) => (v === 0 ? "" : `${v} TB`)} />} />
+                  <LabelList dataKey="giaHanTre2025" position="top" content={(p) => <ChartLabelWithStroke {...p} fill="#b45309" fontSize={isNarrowChart ? 8 : 10} formatter={(v) => (v === 0 ? "" : (isNarrowChart ? `${v}` : `${v} TB`))} />} />
                 </Bar>
                 <Bar
                   dataKey="giaHanDungHan2026"
                   name="Gia hạn đúng hạn (TB hết hạn 2026)"
                   fill="#059669"
                   radius={[2, 2, 0, 0]}
-                  maxBarSize={48}
+                  maxBarSize={isNarrowChart ? 24 : 48}
                 >
-                  <LabelList dataKey="giaHanDungHan2026" position="top" content={(p) => <ChartLabelWithStroke {...p} fill="#047857" fontSize={10} formatter={(v) => (v === 0 ? "" : `${v} TB`)} />} />
+                  <LabelList dataKey="giaHanDungHan2026" position="top" content={(p) => <ChartLabelWithStroke {...p} fill="#047857" fontSize={isNarrowChart ? 8 : 10} formatter={(v) => (v === 0 ? "" : (isNarrowChart ? `${v}` : `${v} TB`))} />} />
                 </Bar>
                 <Bar
                   dataKey="giaHanSom2026"
                   name="Gia hạn sớm (TB hết hạn 2026)"
                   fill="#0ea5e9"
                   radius={[2, 2, 0, 0]}
-                  maxBarSize={48}
+                  maxBarSize={isNarrowChart ? 24 : 48}
                 >
-                  <LabelList dataKey="giaHanSom2026" position="top" content={(p) => <ChartLabelWithStroke {...p} fill="#0284c7" fontSize={10} formatter={(v) => (v === 0 ? "" : `${v} TB`)} />} />
+                  <LabelList dataKey="giaHanSom2026" position="top" content={(p) => <ChartLabelWithStroke {...p} fill="#0284c7" fontSize={isNarrowChart ? 8 : 10} formatter={(v) => (v === 0 ? "" : (isNarrowChart ? `${v}` : `${v} TB`))} />} />
                 </Bar>
               </ComposedChart>
             </ResponsiveContainer>
@@ -772,24 +782,31 @@ export default function Dashboard() {
               </select>
             </label>
           </div>
-          <div className="h-[400px] w-full">
+          <div className="h-[400px] w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={giaHan2026ChartData}
-                margin={{ top: 40, right: 28, left: 0, bottom: 140 }}
+                margin={isNarrowChart ? { top: 40, right: 28, left: 8, bottom: 170 } : { top: 40, right: 28, left: 0, bottom: 140 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
                 <XAxis
                   dataKey="khuVuc"
-                  tick={{ fontSize: 9, fill: "#64748b" }}
-                  tickFormatter={(v) => (v && String(v).replace(/^VNPT\s+KHU\s+VỰC\s+/i, "").trim()) || v}
+                  tick={{ fontSize: isNarrowChart ? 8 : 9, fill: "#64748b" }}
+                  tickFormatter={(v) => {
+                    const s = (v && String(v).replace(/^VNPT\s+KHU\s+VỰC\s+/i, "").trim()) || "";
+                    return isNarrowChart && s.length > 12 ? `${s.slice(0, 11)}…` : s;
+                  }}
                   tickLine={false}
                   interval={0}
+                  angle={isNarrowChart ? -45 : 0}
+                  textAnchor={isNarrowChart ? "end" : "middle"}
+                  height={isNarrowChart ? 110 : undefined}
                 />
                 <YAxis
-                  tick={{ fontSize: 10, fill: "#64748b" }}
+                  tick={{ fontSize: isNarrowChart ? 9 : 10, fill: "#64748b" }}
                   tickLine={false}
                   allowDecimals={false}
+                  width={isNarrowChart ? 28 : undefined}
                 />
                 <Tooltip
                   contentStyle={{ fontSize: 11, border: "1px solid #e2e8f0", borderRadius: 8 }}
@@ -805,7 +822,7 @@ export default function Dashboard() {
                   dot={{ fill: "#dc2626", r: 4 }}
                   connectNulls
                 >
-                  <LabelList dataKey="hetHan" position="top" offset={8} content={(p) => <ChartLabelWithStroke {...p} fill="#dc2626" fontSize={9} formatter={(v) => (v === 0 ? "" : `${v} TB`)} />} />
+                  <LabelList dataKey="hetHan" position="top" offset={8} content={(p) => <ChartLabelWithStroke {...p} fill="#dc2626" fontSize={isNarrowChart ? 8 : 9} formatter={(v) => (v === 0 ? "" : `${v} TB`)} />} />
                 </Line>
               </LineChart>
             </ResponsiveContainer>
@@ -835,24 +852,31 @@ export default function Dashboard() {
               </select>
             </label>
           </div>
-          <div className="h-[380px] w-full">
+          <div className="h-[380px] w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={ptmChartData}
-                margin={{ top: 40, right: 12, left: 0, bottom: 140 }}
+                margin={isNarrowChart ? { top: 40, right: 16, left: 8, bottom: 170 } : { top: 40, right: 12, left: 0, bottom: 140 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
                 <XAxis
                   dataKey="khuVuc"
-                  tick={{ fontSize: 9, fill: "#64748b" }}
-                  tickFormatter={(v) => (v && String(v).replace(/^VNPT\s+KHU\s+VỰC\s+/i, "").trim()) || v}
+                  tick={{ fontSize: isNarrowChart ? 8 : 9, fill: "#64748b" }}
+                  tickFormatter={(v) => {
+                    const s = (v && String(v).replace(/^VNPT\s+KHU\s+VỰC\s+/i, "").trim()) || "";
+                    return isNarrowChart && s.length > 12 ? `${s.slice(0, 11)}…` : s;
+                  }}
                   tickLine={false}
                   interval={0}
+                  angle={isNarrowChart ? -45 : 0}
+                  textAnchor={isNarrowChart ? "end" : "middle"}
+                  height={isNarrowChart ? 110 : undefined}
                 />
                 <YAxis
-                  tick={{ fontSize: 10, fill: "#64748b" }}
+                  tick={{ fontSize: isNarrowChart ? 9 : 10, fill: "#64748b" }}
                   tickLine={false}
                   allowDecimals={false}
+                  width={isNarrowChart ? 28 : undefined}
                 />
                 <Tooltip
                   contentStyle={{
@@ -872,7 +896,7 @@ export default function Dashboard() {
                   isAnimationActive={false}
                   activeBar={false}
                 >
-                  <LabelList dataKey="ptm" position="top" zIndex={10} content={(p) => <ChartLabelWithStroke {...p} fill="#0369a1" fontSize={10} formatter={(v) => (v === 0 ? "" : `${v} TB`)} />} />
+                  <LabelList dataKey="ptm" position="top" zIndex={10} content={(p) => <ChartLabelWithStroke {...p} fill="#0369a1" fontSize={isNarrowChart ? 8 : 10} formatter={(v) => (v === 0 ? "" : `${v} TB`)} />} />
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
